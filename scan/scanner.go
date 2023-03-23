@@ -36,7 +36,7 @@ func isHttp(conn net.Conn) bool {
 	return err == nil
 }
 
-func scanPort(protocol string, host string, port int) Port {
+func ScanPort(protocol string, host string, port int) Port {
 	address := fmt.Sprintf("%s:%d", host, port)
 
 	conn, err := net.DialTimeout(protocol, address, 60*time.Second)
@@ -107,7 +107,7 @@ func CreateScannerPool(n int, protocol string, host string, start int, end int) 
 		go func() {
 			defer close(scannerChannel)
 			for port := range portChannel {
-				scannerChannel <- scanPort(protocol, host, port)
+				scannerChannel <- ScanPort(protocol, host, port)
 			}
 		}()
 	}
